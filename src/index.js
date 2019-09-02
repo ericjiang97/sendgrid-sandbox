@@ -1,8 +1,10 @@
 require("dotenv").config();
 const express = require("express"),
   bodyParser = require("body-parser"),
-  sendgridClient = require("./config/sendgrid"),
   fetch64 = require("fetch-base64");
+
+const sendgridClient = require("./config/sendgrid"),
+  { STATUS } = require("./constants");
 
 const PORT = process.env.PORT || 3000;
 
@@ -48,10 +50,10 @@ app.post("/api/email", async (request, response, next) => {
       attachments
     })
     .then(resp => {
-      response.json({ message: resp, status: "OK" });
+      response.json({ message: resp, status: STATUS.OK });
     })
     .catch(err => {
-      response.status(500).send({ status: "ERROR", message: err });
+      response.status(500).send({ status: STATUS.ERROR, message: err });
     });
 });
 
